@@ -5,10 +5,9 @@ pygame.init()
 win = pygame.display.set_mode((1500, 700), RESIZABLE)
 pygame.display.set_caption("Ball Game")
 air_resistance = 1.02
-gap = random.randint(0, 600)
-rect_points = {1: [(200, 550), (400, 400), (600, 250), (800, 100), (1000, 250), (1200, 400), (300, 250)]}
-tri_points = {1: [(400, 690), (500, 690), (600, 690), (700, 690), (800, 690), (900, 690), (1000, 690), (1100, 690), (1200, 690)]}
-win_points = {1: (1340, 680)}
+rect_points = {1: [], 2: [(200, 550), (400, 400), (600, 250), (800, 100), (1000, 250), (1200, 400), (300, 250)]}
+tri_points = {1: [(700, 690)], 2: [(400, 690), (500, 690), (600, 690), (700, 690), (800, 690), (900, 690), (1000, 690), (1100, 690), (1200, 690), (800, 400)]}
+win_points = {1: (1340, 680), 2: (1340, 680)}
 level = 1
 
 
@@ -55,7 +54,7 @@ while mainLoop:
             ball.posy = ball.height+50
             ball.vely *= -0.35
         if keys[pygame.K_SPACE]:
-            if ball.jumped_for < 5:
+            if ball.jumped_for < 4:
                 ball.vely -= 6
                 ball.jumped_for += 1
             print(ball.jumped_for)
@@ -78,19 +77,25 @@ while mainLoop:
                 ball.jumped_for = 0
             elif int(ball.posy) in range(rect[1]+10-ball.height, rect[1]+110-ball.height) and ball.vely <= 0 and int(ball.posx) in range(rect[0]-ball.length, rect[0]+151):
                 ball.vely *= -1
+
             pygame.draw.rect(win, (255, 255, 0), pygame.Rect(rect[0], rect[1], 140, 50))
         gravity(ball)
         ball.posy += ball.vely
         for tri in tri_points[level]:
-            if int(ball.posx) in range(tri[0]-ball.length+15, tri[0]+40+ball.length) and int(ball.posy) in range(tri[1]-ball.height-45, tri[1]):
+            if int(ball.posx) in range(tri[0]-ball.length+15,  tri[0]+40+ball.length) and int(ball.posy) in range(tri[1]-ball.height-45, tri[1]):
                 ball.posx = 100
-                ball.posy = 0
+                ball.posy = 650
                 ball.vely = 0
                 ball.velx = 0
                 ball.jumped_for = 0
             pygame.draw.polygon(win, (0, 255, 255), draw_tri(tri))
-        if int(ball.posx) in range(win_points[level][0]-ball.length, win_points[level][0]+100+ball.length) and int(ball.posy) in range(win_points[level][1]-10,  win_points[level][1]+100):
+        if int(ball.posx) in range(win_points[level][0], win_points[level][0]+100+ball.length) and int(ball.posy) in range(win_points[level][1]-ball.height,  win_points[level][1]+100):
             level += 1
+            ball.posx = 100
+            ball.posy = 650
+            ball.vely = 0
+            ball.velx = 0
+            ball.jumped_for = 0
         pygame.draw.circle(win, (255, 0, 0), (int(ball.posx), int(ball.posy)), ball.height)
         pygame.draw.rect(win, (0, 255, 0), pygame.Rect(win_points[level][0], win_points[level][1], 100, 20))
     pygame.display.update()
