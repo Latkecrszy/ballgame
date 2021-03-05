@@ -73,7 +73,7 @@ async function start() {
             ball.vely *= -0.1
         }
         if (keys_down.includes("space")) {
-            if (ball.jumped_for < 1) {
+            if (ball.jumped_for < 500) {
                 ball.vely -= 6
                 ball.jumped_for += 1
             }
