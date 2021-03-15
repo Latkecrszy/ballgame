@@ -31,7 +31,6 @@ class Object:
         self.mass = mass
         self.height = height
         self.length = length
-        self.elasticity = 1.1
         self.jumped_for = 0
         self.coins = 0
 
@@ -96,9 +95,7 @@ while mainLoop:
                 ball.posy = rect[1] - ball.height
                 ball.vely = 0
                 ball.jumped_for = 0
-            elif int(ball.posy) in range(rect[1] + 10 - ball.height,
-                                         rect[1] + 110 - ball.height) and ball.vely <= 0 and int(ball.posx) in range(
-                    rect[0] - ball.length, rect[0] + 151):
+            elif rect[1] + 10 - ball.height <= ball.posy <= rect[1] + 110 - ball.height and ball.vely <= 0 and rect[0] - ball.length <= ball.posx <= rect[0] + 151:
                 ball.vely *= -1
             elif int(ball.posy) in range(rect[1], rect[1] + RECT_HEIGHT + ball.height):
                 if int(ball.posx) in range(rect[0] - ball.length, rect[0] + 10):
