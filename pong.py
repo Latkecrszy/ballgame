@@ -77,7 +77,7 @@ while mainLoop:
     win.blit(text, (300, 40))
     pygame.draw.rect(win, (0, 255, 0), (paddle_1_x, paddle_1_y, rect_width, rect_height))
     pygame.draw.rect(win, (0, 0, 255), (paddle_2_x, paddle_2_y, rect_width, rect_height))
-    win.blit(pygame.transform.rotozoom(pygame.image.load('/Users/sethraphael/PycharmProject/protectthepond/ducks/ducky_dave.png'), 0, 0.5), (ball_x-30, ball_y-30))
+    win.blit(pygame.transform.rotozoom(pygame.image.load('dave.png'), 0, 0.5), (ball_x-30, ball_y-30))
     # pygame.draw.circle(win, (255, 0, 0), (ball_x, ball_y), 20)
     pygame.display.update()
 
