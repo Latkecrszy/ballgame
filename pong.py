@@ -4,7 +4,7 @@ import random
 pygame.init()
 
 win = pygame.display.set_mode((1000, 700))
-pygame.display.set_caption("Pong by Seth")
+pygame.display.set_caption("Pong")
 
 paddle_1_x = 30
 paddle_2_x = 940
@@ -12,7 +12,7 @@ paddle_1_y = 30
 paddle_2_y = 350
 rect_width = 30
 rect_height = 110
-rect_vel = 3
+rect_vel = 5
 ball_vel_y = random.choice([-3, 3])
 ball_vel_x = random.choice([-5, 5])
 ball_x = 150
@@ -66,45 +66,19 @@ while mainLoop:
         ball_vel_x *= -1
         ball_x = 500
         ball_y = 350
-    if ball_2_y > 700:
-        ball_2_y = 700
-        ball_2_vel_y *= -1
-    elif ball_2_y < 0:
-        ball_2_y = 0
-        ball_2_vel_y *= -1
-    if ball_2_x > 1000:
-        playerOneScore += 1
-        ball_2_vel_x *= -1
-        ball_2_x = 500
-        ball_2_y = 350
-    elif ball_2_x < 0:
-        playerTwoScore += 1
-        ball_2_vel_x *= -1
-        ball_2_x = 500
-        ball_2_y = 350
-    if ball_x in range(ball_2_x, ball_2_x - 10) and ball_y in range(ball_2_y - 10, ball_2_y):
-        ball_vel_x *= -1
-        ball_2_vel_x *= -1
-
     if ball_x in range(paddle_1_x, paddle_1_x + 50) and ball_y in range(paddle_1_y, paddle_1_y + 110):
         ball_vel_x *= -1
     if ball_x in range(paddle_2_x - 10, paddle_2_x + 10) and ball_y in range(paddle_2_y, paddle_2_y + 110):
         ball_vel_x *= -1
-    if ball_2_x in range(paddle_1_x, paddle_1_x + 50) and ball_2_y in range(paddle_1_y, paddle_1_y + 110):
-        ball_2_vel_x *= -1
-    if ball_2_x in range(paddle_2_x - 10, paddle_2_x + 10) and ball_2_y in range(paddle_2_y, paddle_2_y + 110):
-        ball_2_vel_x *= -1
     ball_x += ball_vel_x
     ball_y += ball_vel_y
-    ball_2_x += ball_2_vel_x
-    ball_2_y += ball_2_vel_y
     win.fill((0, 0, 0))
     text = font.render(f"Player one: {playerOneScore}               Player two: {playerTwoScore}", 1, (255, 0, 0))
     win.blit(text, (300, 40))
     pygame.draw.rect(win, (0, 255, 0), (paddle_1_x, paddle_1_y, rect_width, rect_height))
     pygame.draw.rect(win, (0, 0, 255), (paddle_2_x, paddle_2_y, rect_width, rect_height))
-    pygame.draw.circle(win, (255, 0, 0), (ball_x, ball_y), 20)
-    pygame.draw.circle(win, (255, 255, 0), (ball_2_x, ball_2_y), 20)
+    win.blit(pygame.transform.rotozoom(pygame.image.load('/Users/sethraphael/PycharmProject/protectthepond/ducks/ducky_dave.png'), 0, 0.5), (ball_x-30, ball_y-30))
+    # pygame.draw.circle(win, (255, 0, 0), (ball_x, ball_y), 20)
     pygame.display.update()
 
 pygame.quit()

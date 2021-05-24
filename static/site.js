@@ -19,15 +19,16 @@ class Object {
 function gravity(obj) {obj.vely += obj.mass / 90}
 
 
-function draw_tri(coors) {return (coors[0], coors[1]), (coors[0] + 70, coors[1]), (coors[0] + 35, coors[1] - 60)}
+function draw_tri(coors) {return [coors[0], coors[1]], [coors[0] + 70, coors[1]], [coors[0] + 35, coors[1] - 60]}
 
 
 function reset(obj) {
     obj.posx = 100
     obj.posy = 650
-    obj.vely, obj.velx = 0, 0
+    obj.vely = 0
+    obj.velx = 0
     obj.jumped_for = 0
-    obj.coins -= len(collected_coins[level])
+    obj.coins -= collected_coins[level].length
     collected_coins[level] = []
 }
 
@@ -48,24 +49,24 @@ let collected_coins = {1: [], 2: [], 3: []}
 let level = 1
 let keys_down = []
 document.addEventListener('keydown', function (event) {
-    if (event.keyCode == 37) {
+    if (event.keyCode === 37) {
         if (!keys_down.includes("left")) {keys_down.push("left")}
     }
-    if (event.keyCode == 39) {
+    if (event.keyCode === 39) {
        if (!keys_down.includes("right")) {keys_down.push("right")}
     }
-    if (event.keyCode == 32) {
+    if (event.keyCode === 32) {
         if (!keys_down.includes("space")) {keys_down.push("space")}
     }
     event.preventDefault()}, true)
 document.addEventListener('keyup', function (event) {
-    if (event.keyCode == 37) {
+    if (event.keyCode === 37) {
         keys_down.splice(keys_down.indexOf('left'), 1)
     }
-    if (event.keyCode == 39) {
+    if (event.keyCode === 39) {
         keys_down.splice(keys_down.indexOf('right'), 1)
     }
-    if (event.keyCode == 32) {
+    if (event.keyCode === 32) {
         keys_down.splice(keys_down.indexOf('space'), 1)
     }
 })
@@ -73,7 +74,7 @@ document.addEventListener('keyup', function (event) {
 async function start() {
     let canvas = document.getElementById("canvas");
     let context = canvas.getContext('2d');
-    while (true) {
+    setInterval(async function() {
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.beginPath();
         if (keys_down.includes("left")) {
@@ -143,19 +144,18 @@ async function start() {
         context.arc(ball.posx, ball.posy, ball.height, 0, 2 * Math.PI, false);
         context.fillStyle = 'red';
         context.fill();
-        await sleep(12)
-    }
+    }, 12);
 }
 
 function move(keyCode) {
     keyCode = keyCode.keyCode
-    if (keyCode == 37) {
+    if (keyCode === 37) {
         ball.velx -= 3
     }
-    else if (keyCode == 39) {
+    else if (keyCode === 39) {
         ball.velx += 3
     }
-    else if (keyCode == 32) {
+    else if (keyCode === 32) {
         if (ball.jumped_for < 4) {
             ball.vely -= 6
             ball.jumped_for += 1
